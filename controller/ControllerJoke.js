@@ -44,7 +44,7 @@ export const addJoke = async (req , res) => {
 
 export const deleteJoke = async (req , res) => {
     try{
-        await Joke.findByIdAndDelete(req.params.id);
+        await Jokes.findByIdAndDelete(req.params.id);
         res.status(204).send();
 
     }catch(err){
