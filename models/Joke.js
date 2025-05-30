@@ -1,4 +1,4 @@
-import { text } from "express";
+
 import mongoose from "mongoose";
 
 const JoleSchem = new mongoose.Schema({
