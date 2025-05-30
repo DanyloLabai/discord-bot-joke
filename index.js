@@ -16,9 +16,9 @@ client.on('messageCreate', async message => {
 
     if(message.content.toLowerCase() === '!joke'){
         try{
-            const res = await fetch(`http://localhost:3000/api/jokes/random`);
+            const res = await fetch('http://localhost:3000/api/jokes/random');
             const data = await res.json();
-            message.channel.send(DataTransfer.text);
+            message.channel.send(data.text);
         }catch(err){
             message.channel.send('Error');
         }
