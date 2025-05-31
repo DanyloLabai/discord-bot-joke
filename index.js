@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import { Client, GatewayIntentBits } from 'discord.js';
 import fetch from 'node-fetch';
+import{playJoke} from './controller/ControlerAudio.js';
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent ]
+    intents: [GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent,  GatewayIntentBits.GuildVoiceStates ]
 });
 
 
@@ -18,7 +19,9 @@ client.on('messageCreate', async message => {
         try{
             const res = await fetch('http://localhost:3000/api/jokes/random');
             const data = await res.json();
-            message.channel.send(data.text);
+            await message.channel.send(data.text);
+
+            await playJoke(message , data.text);
         }catch(err){
             message.channel.send('Error');
         }
