@@ -1,8 +1,7 @@
-
 import mongoose from "mongoose";
 
-const JoleSchem = new mongoose.Schema({
-    text: { type: String, required: true}
+const JokeSchem = new mongoose.Schema({
+  text: { type: String, required: true },
 });
 
-export default mongoose.model('Joke' , JoleSchem);
+export default mongoose.model("Joke", JokeSchem);

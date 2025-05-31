@@ -1,53 +1,70 @@
+import Jokes from "../models/Joke.js";
+import "dotenv/config";
+import OpenAI from "openai";
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-import Jokes from '../models/Joke.js';
+export const randomJoke = async (req, res) => {
+  try {
+    // const useAi = Math.random() < 0.5;
 
+    // if (useAi) {
+    //   const prompt = "Придумай веселий короткий жарт українською мовою.";
 
-export const randomJoke = async(req , res ) => {
-    try{
-        const counter = await Jokes.countDocuments();
-        const random = Math.floor(Math.random() * counter);
-        const joke = await Jokes.findOne().skip(random);
+    //   const response = await openai.chat.completions.create({
+    //     model: "gpt-4o-mini",
+    //     messages: [{ role: "user", content: prompt }],
+    //     max_tokens: 60,
+    //     temperature: 0.8,
+    //   });
 
-        if(!joke) return res.status(404).send('Not found');
+    //   const aiJoke = response.choices[0].message.content;
 
-        res.json(joke);
-    }catch(err){
-        res.status(500).json({ message: "Error", err });
-    }
-}
+    //   if (!aiJoke) return res.status(404).send("AI joke not found");
+    //   return res.status(201).json({ text: aiJoke.trim() });
+    // } else {
+      const counter = await Jokes.countDocuments();
+      const random = Math.floor(Math.random() * counter);
+      const joke = await Jokes.findOne().skip(random);
 
-export const allJokes = async(req , res ) => {
-    try{
-        
-        const jokes = await Jokes.find();
+      if (!joke) return res.status(404).send("Not found");
 
-        if(!jokes) return res.status(404).send('Not found');
+      return res.status(201).json({ text: joke.text });
+    // }
+  } catch (err) {
+    res.status(500).json({ message: "Error", err });
+  }
+};
 
-        res.json(jokes);
-    }catch(err){
-        res.status(500).json({ message: "Error", err });
-    }
-}
+export const allJokes = async (req, res) => {
+  try {
+    const jokes = await Jokes.find();
 
+    if (!jokes) return res.status(404).send("Not found");
 
-export const addJoke = async (req , res) => {
-    try{
-        const newJoke = new Jokes({text: req.body.text});
-        await newJoke.save();
-        res.status(201).json(newJoke);
-    }catch(err){
-        res.status(500).json({ message: "Error creating joke", err});
-    }
-}
+    res.json(jokes);
+  } catch (err) {
+    res.status(500).json({ message: "Error", err });
+  }
+};
 
+export const addJoke = async (req, res) => {
+  try {
+    const newJoke = new Jokes({ text: req.body.text });
+    await newJoke.save();
+    res.status(201).json(newJoke);
+  } catch (err) {
+    res.status(500).json({ message: "Error creating joke", err });
+  }
+};
 
-export const deleteJoke = async (req , res) => {
-    try{
-        await Jokes.findByIdAndDelete(req.params.id);
-        res.status(204).send();
-
-    }catch(err){
-        res.status(500).json({ message: "Error deleting ", err });
-    }
-}
+export const deleteJoke = async (req, res) => {
+  try {
+    await Jokes.findByIdAndDelete(req.params.id);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ message: "Error deleting ", err });
+  }
+};
