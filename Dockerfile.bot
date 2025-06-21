@@ -1,4 +1,11 @@
 FROM node:20-alpine
+RUN apk add --no-cache \
+    ffmpeg \
+    opus \
+    opus-dev \
+    libogg \
+    libogg-dev \
+    build-base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
