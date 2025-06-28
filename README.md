@@ -1,4 +1,9 @@
-Bot Joe
+# Discord bot Joe 
 
-This is Joe — a discord bot that generates jokes to brighten your day!
-Just type !joke to get a random joke.
+A Discord bot that sends random jokes and reads them aloud in a voice channel.
+
+##  Features
+- `!joke` command:
+  - Fetches a random joke from an API
+  - Sends the joke to the chat
+  - Speaks the joke in a voice channel
